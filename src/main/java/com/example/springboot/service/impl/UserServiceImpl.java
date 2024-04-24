@@ -40,6 +40,6 @@ public class UserServiceImpl implements UserService {
          existingUser.setLastName(user.getLastName());
          existingUser.setEmail(user.getEmail());
          User updatedUser =  userRepository.save(existingUser);
-        return updatedUser ;
+        return updatedUser;
     }
 }
