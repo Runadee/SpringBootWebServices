@@ -2,6 +2,7 @@ package com.example.springboot.service.impl;
 
 import com.example.springboot.dto.UserDto;
 import com.example.springboot.entity.User;
+import com.example.springboot.exception.ResourceNotFoundException;
 import com.example.springboot.mapper.UserMapper;
 import com.example.springboot.repository.UserRepository;
 import com.example.springboot.service.UserService;
@@ -39,8 +40,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserById(Long userId) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-       User user =  optionalUser.get();
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new ResourceNotFoundException("User", "id", userId)
+        );
+
        // return UserMapper.mapToUserDto(user);
         return modelMapper.map(user, UserDto.class);
     }
@@ -57,17 +60,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto updateUser(UserDto user) {
-         User existingUser = userRepository.findById(user.getId()).get();
+         User existingUser = userRepository.findById(user.getId()).orElseThrow(
+                 () -> new ResourceNotFoundException("User", "id", user.getId())
+         );
+
          existingUser.setFirstName(user.getFirstName());
          existingUser.setLastName(user.getLastName());
          existingUser.setEmail(user.getEmail());
          User updatedUser =  userRepository.save(existingUser);
-        // return UserMapper.mapToUserDto(updatedUser);
+
         return modelMapper.map(updatedUser, UserDto.class);
     }
 
     @Override
     public void deleteUser(Long userId) {
-          userRepository.deleteById(userId);
+        User existingUser = userRepository.findById(userId).orElseThrow(
+                () -> new ResourceNotFoundException("User", "id", userId)
+        );
+
+        userRepository.deleteById(userId);
     }
 }
