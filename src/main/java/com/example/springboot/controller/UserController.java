@@ -27,15 +27,15 @@ public class UserController {
 
     // build get user by id REST API
     @GetMapping("{id}")
-    public ResponseEntity<User> getUserById(@PathVariable("id") Long userId){
-         User user =  userService.getUserById(userId);
+    public ResponseEntity<UserDto> getUserById(@PathVariable("id") Long userId){
+         UserDto user =  userService.getUserById(userId);
          return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     // build get all users REST API
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers(){
-          List<User> users = userService.getAllUsers();
+    public ResponseEntity<List<UserDto>> getAllUsers(){
+          List<UserDto> users = userService.getAllUsers();
           return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
