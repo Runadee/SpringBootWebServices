@@ -27,6 +27,7 @@ public class UserServiceImpl implements UserService {
     public UserDto createUser(UserDto userDto) {
 
        // User user = UserMapper.mapToUser(userDto);
+        Optional<User> optionalUser = userRepository.findByEmail(userDto.getEmail());
 
         User user = modelMapper.map(userDto, User.class);
 
