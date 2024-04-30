@@ -70,7 +70,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         List<ObjectError> errorList =  ex.getBindingResult().getAllErrors();
          errorList.forEach((error) -> {
              String fieldName = ((FieldError) error).getField();
-             String message =  "Field cannot be empty.";
+             String message = error.getDefaultMessage();
              errors.put(fieldName, message);
          });
          return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
